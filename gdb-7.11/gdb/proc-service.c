@@ -40,7 +40,7 @@
    systems.  Compensate for the discrepancies.  */
 
 #ifdef PROC_SERVICE_IS_OLD
-typedef const struct ps_prochandle *gdb_ps_prochandle_t;
+typedef struct ps_prochandle *gdb_ps_prochandle_t;
 typedef char *gdb_ps_read_buf_t;
 typedef char *gdb_ps_write_buf_t;
 typedef int gdb_ps_size_t;
@@ -84,7 +84,7 @@ core_addr_to_ps_addr (CORE_ADDR addr)
    This is a helper function for ps_pdread and ps_pdwrite.  */
 
 static ps_err_e
-ps_xfer_memory (const struct ps_prochandle *ph, psaddr_t addr,
+ps_xfer_memory (struct ps_prochandle *ph, psaddr_t addr,
 		gdb_byte *buf, size_t len, int write)
 {
   struct cleanup *old_chain = save_inferior_ptid ();

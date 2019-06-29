@@ -101,7 +101,7 @@ static void init_sol_thread_ops (void);
 /* Pointers to routines from libthread_db resolved by dlopen().  */
 
 static void (*p_td_log)(const int on_off);
-static td_err_e (*p_td_ta_new)(const struct ps_prochandle *ph_p,
+static td_err_e (*p_td_ta_new)(struct ps_prochandle *ph_p,
 			       td_thragent_t **ta_pp);
 static td_err_e (*p_td_ta_delete)(td_thragent_t *ta_p);
 static td_err_e (*p_td_init)(void);
@@ -697,7 +697,7 @@ sol_thread_alive (struct target_ops *ops, ptid_t ptid)
    function prototypes.  In particular, we have
 
    NEWER                        OLDER
-   struct ps_prochandle *       const struct ps_prochandle *
+   struct ps_prochandle *       struct ps_prochandle *
    void*                        char*
    const void*          	char*
    int                  	size_t
@@ -708,7 +708,7 @@ sol_thread_alive (struct target_ops *ops, ptid_t ptid)
    and use that info to make appropriate typedefs here.  */
 
 #ifdef PROC_SERVICE_IS_OLD
-typedef const struct ps_prochandle *gdb_ps_prochandle_t;
+typedef struct ps_prochandle *gdb_ps_prochandle_t;
 typedef char *gdb_ps_read_buf_t;
 typedef char *gdb_ps_write_buf_t;
 typedef int gdb_ps_size_t;
@@ -777,7 +777,7 @@ ps_pglobal_lookup (gdb_ps_prochandle_t ph, const char *ld_object_name,
 /* Common routine for reading and writing memory.  */
 
 static ps_err_e
-rw_common (int dowrite, const struct ps_prochandle *ph, gdb_ps_addr_t addr,
+rw_common (int dowrite, struct ps_prochandle *ph, gdb_ps_addr_t addr,
 	   gdb_byte *buf, int size)
 {
   int ret;
